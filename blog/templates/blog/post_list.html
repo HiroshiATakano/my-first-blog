@@ -1,46 +1,13 @@
-{% load static %}
-<html>
-  <head>
-    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
-    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
-    <link href='//fonts.googleapis.com/css?family=Lobster&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
-    <link rel="stylesheet" href="{% static 'css/blog.css' %}"
-    <title>Takano's blog</title>
-  </head>
-  <body>
-    <div>
-      <h1><a href="/">Takano's Blog</a></h1>
-    </div>
+{% extends 'blog/base.html' %}
 
-{% for post in posts %}
-  <div>
-      <p>published: {{ post.published_date }}</p>
-      <h2><a href="">{{ post.title }}</a></h2>
-      <h3>{{ post.text|linebreaksbr }}</h3>
-  </div>
-{% endfor %}
-  <div>
-    <p id="RealtimeClockArea"></p>
-     <span id="view_time"></span>
-  </div>
-
-  </body>
-</html>
-
-<script type="text/javascript">
-document.getElementById("view_time").innerHTML = getNow();
-
-function getNow() {
-	var now = new Date();
-	var year = now.getFullYear();
-	var mon = now.getMonth()+1; //１を足すこと
-	var day = now.getDate();
-	var hour = now.getHours();
-	var min = now.getMinutes();
-	var sec = now.getSeconds();
-
-	//出力用
-	var s = year + "年" + mon + "月" + day + "日" + hour + "時" + min + "分" + sec + "秒";
-	return s;
-}
-</script>
+{% block content %}
+    {% for post in posts %}
+        <div class="post">
+            <div class="date">
+                <p>published: {{ post.published_date }}</p>
+            </div>
+            <h2><a href="{% url 'post_detail' pk=post.pk %}">{{ post.title }}</a></h2>
+            <h3>{{ post.text|linebreaksbr }}</h3>
+        </div>
+    {% endfor %}
+{% endblock %}
